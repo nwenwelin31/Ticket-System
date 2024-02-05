@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="mt-5">
-                <form action="{{ route('user.update') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('user.update',$user->id) }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="form-group row">
