@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use Illuminate\Http\Request;
 use App\Models\User;
 class UserController extends Controller
 {
@@ -34,15 +34,23 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUserRequest $request)
+    public function store(Request $request)
     {
+        //validation
+        // $validatedData = $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|email|unique:users',
+        //     'password' => 'required|min:8',
+        //     'role' => 'required|in:0,1,2',// Assuming role values are 0, 1, and 2
+        // ]);
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = $request->password;
         $user->role = $request->input('userRole');
         $user->save();
-        return view('user.index');
+        return redirect()->route('user.index')->with('success','User is created successfully');
 
 
     }
@@ -53,9 +61,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        return view('user.show',compact('user'));
     }
 
     /**
@@ -76,13 +84,27 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRequest $request,User $user)
+    public function update(Request $request, $id)
+
     {
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = $request->password;
-        $user->role = $request->input('userRole');
-        $user->update();
+        //validation
+        // $validatedData = $request->validate([
+        //     'name' => 'required|string|max:255',
+        //     'email' => 'required|email|unique:users',
+        //     'password' => 'required|min:8',
+        //     'role' => 'required|in:0,1,2',// Assuming role values are 0, 1, and 2
+        // ]);
+
+        $user = User::find($id);
+        if($user){
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = $request->password;
+            $user->role = $request->input('userRole');
+            $user->update();
+            return redirect()->route('user.index')->with('update','user is updated successfully');
+
+        }
 
     }
 

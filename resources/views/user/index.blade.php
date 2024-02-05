@@ -34,7 +34,7 @@
                                     class="btn btn-outline-primary">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="#"
+                                <a href="{{ route('user.show',$user->id) }}"
                                     class="btn btn-outline-primary">
                                     <i class="fa fa-info"></i>
                                 </a>
