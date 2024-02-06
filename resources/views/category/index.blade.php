@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card mt-5">
-                <h3 class="p-2 btn-dark text-center">User List</h3>
+                <h3 class="p-2 btn-dark text-center">Category List</h3>
                 <table class="table">
                     {{-- delete confirm message --}}
                     @if (Session::has('delete'))
@@ -41,28 +41,24 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Role</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($users as $user)
+                        @foreach ($categories as $category)
                         <tr>
-                            <td>{{ $user->id }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>{{ $user->role }}</td>
+                            <td>{{ $category->id }}</td>
+                            <td>{{ $category->name }}</td>
                             <td>
-                                <a href="{{ route('user.edit',$user->id) }}"
+                                <a href="{{ route('category.edit',$category->id) }}"
                                     class="btn btn-outline-primary">
                                     <i class="fa fa-edit"></i>
                                 </a>
-                                <a href="{{ route('user.show',$user->id) }}"
+                                <a href="{{ route('category.show',$category->id) }}"
                                     class="btn btn-outline-primary">
                                     <i class="fa fa-info"></i>
                                 </a>
-                                <form action="{{ route('user.destroy',$user->id) }}" method="post" class="d-inline-block">
+                                <form action="{{ route('category.destroy',$category->id) }}" method="post" class="d-inline-block">
                                     @method('delete')
                                     @csrf
                                     <button type="" class="btn btn-outline-danger">

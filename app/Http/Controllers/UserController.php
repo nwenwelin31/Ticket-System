@@ -36,18 +36,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //validation
-        // $validatedData = $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|email|unique:users',
-        //     'password' => 'required|min:8',
-        //     'role' => 'required|in:0,1,2',// Assuming role values are 0, 1, and 2
-        // ]);
+        //validation for request
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
+            'userRole' => 'required|in:0,1,2',// Assuming role values are 0, 1, and 2
+        ]);
 
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = $request->password;
+        $user->password = encrypt($request->password);
         $user->role = $request->input('userRole');
         $user->save();
         return redirect()->route('user.index')->with('success','User is created successfully');
@@ -87,22 +87,22 @@ class UserController extends Controller
     public function update(Request $request, $id)
 
     {
-        //validation
-        // $validatedData = $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'email' => 'required|email|unique:users',
-        //     'password' => 'required|min:8',
-        //     'role' => 'required|in:0,1,2',// Assuming role values are 0, 1, and 2
-        // ]);
+        //validation for request
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,'.$id,
+            'password' => 'required|min:8',
+            'userRole' => 'required|in:0,1,2',// Assuming role values are 0, 1, and 2
+        ]);
 
         $user = User::find($id);
         if($user){
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->password = $request->password;
+            $user->password = encrypt($request->password);
             $user->role = $request->input('userRole');
             $user->update();
-            return redirect()->route('user.index')->with('update','user is updated successfully');
+            return redirect()->route('user.index')->with('update','User Info is updated successfully');
 
         }
 

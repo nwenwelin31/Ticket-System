@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LabelController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +26,6 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('user',UserController::class);
-//Route::put('user/{id}',[UserController::class,'update'])->name('user.update');
+Route::resource('label',LabelController::class);
+Route::resource('category',CategoryController::class);
+Route::resource('ticket',TicketController::class);

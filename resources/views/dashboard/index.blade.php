@@ -99,24 +99,31 @@
                                 </p>
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
+                        <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-plus"></i>
-                                <p>
-                                    Create Item
-                                    <span class="right badge badge-danger">New</span>
-                                </p>
+                                <i class="nav-icon fas fa-ticket"></i>
+                                <p>Tickets</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Item List
-                                    <span class="right badge badge-success">view</span>
-                                </p>
+                                <i class="nav-icon fas fa-file"></i>
+                                <p>Ticket Logs</p>
                             </a>
-                        </li> --}}
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-archive"></i>
+                                <p>Categories</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-tag"></i>
+                                <p>Labels</p>
+                            </a>
+                        </li>
 
                     </ul>
                 </nav>
