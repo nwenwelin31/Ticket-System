@@ -25,7 +25,7 @@ class TicketController extends Controller
      */
     public function create()
     {
-        //
+        return view('ticket.create');
     }
 
     /**
@@ -36,7 +36,21 @@ class TicketController extends Controller
      */
     public function store(StoreTicketRequest $request)
     {
-        //
+        $ticket = new Ticket();
+        $ticket->title = $request->title;
+        $ticket->message = $request->message;
+        $labelData = $request->input('label', []);
+        $ticket->label = implode(', ', $labelData);
+        $categoryData = $request->input('category', []);
+        $ticket->category = implode(', ', $categoryData);
+        $ticket->priority = $request->priority;
+        $file = $request->file('file');
+        $newName = "file_".uniqid().".".$file->extension();
+        $file->storeAs('public/uploads', $newName);
+        $ticket->file = $newName;
+        $ticket->save();
+        return 'hello';
+
     }
 
     /**

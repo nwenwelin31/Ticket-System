@@ -16,7 +16,9 @@ class CreateLabelsTable extends Migration
         Schema::create('labels', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->unsignedBigInteger('ticket_id');
             $table->timestamps();
+            $table->foreign('ticket_id')->references('id')->on('tickets');
         });
     }
 
