@@ -55,39 +55,36 @@ class TicketController extends Controller
         $ticket->file = $newName;
         $ticket->save();
 
-        // foreach($request->file('file') as $file)
-        // {
-        //     $newName = "file_".uniqid().".".$file->getClientOriginalExtension();
-        //     $file->storeAs('public/uploads', $newName);
-        //     $ticket->files()->create([
-        //         'file' => $newName
-        //     ]);
-        // }
+        if($request->category_id)
+        {
+            $ticket->category()->associate($request->category_id);
+        }
 
-
-        //$ticket->file = implode(',',$newName);
-        //$ticket->save();
+        if($request->label_id)
+        {
+            $ticket->label()->associate($request->label_id);
+        }
 
         // Store label IDs and ticket id in to label_tickets table
-        $labelData = $request->input('label_id', []);
-         foreach($labelData as $labelId)
-         {
-            $labelTicket = new labelTicket();
-            $labelTicket->ticket_id = $ticket->id;
-            $labelTicket->label_id = $labelId;
-            $labelTicket->save();
-         }
+        // $labelData = $request->input('label_id', []);
+        //  foreach($labelData as $labelId)
+        //  {
+        //     $labelTicket = new labelTicket();
+        //     $labelTicket->ticket_id = $ticket->id;
+        //     $labelTicket->label_id = $labelId;
+        //     $labelTicket->save();
+        //  }
 
         // Store category IDs and ticket id in to category_tickets table
-         $categoryData = $request->input('category_id', []);
-         foreach($categoryData as $categoryId)
-         {
-            $categoryTicket = new CategoryTicket();
-            $categoryTicket->ticket_id = $ticket->id;
-            $categoryTicket->category_id = $categoryId;
-            $categoryTicket->save();
-         }
-         return redirect()->route('ticket.index');
+        //  $categoryData = $request->input('category_id', []);
+        //  foreach($categoryData as $categoryId)
+        //  {
+        //     $categoryTicket = new CategoryTicket();
+        //     $categoryTicket->ticket_id = $ticket->id;
+        //     $categoryTicket->category_id = $categoryId;
+        //     $categoryTicket->save();
+        //  }
+
     }
 
     /**
@@ -98,7 +95,7 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        //
+        return view('ticket.detail',compact('ticket'));
     }
 
     /**

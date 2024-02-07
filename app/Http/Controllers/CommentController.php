@@ -40,9 +40,9 @@ class CommentController extends Controller
         $comment = new Comment();
         $comment->name = $request->name;
         $comment->user_id = Auth::user()->id;
-        // $comment->ticket_id =
+        $comment->ticket_id =$request->ticket_id;
         $comment->save();
-        return 'hello';
+        return redirect()->back();
     }
 
     /**
@@ -87,6 +87,9 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        //
+        if($comment->id){
+            $comment->delete();
+        }
+        return redirect()->back();
     }
 }

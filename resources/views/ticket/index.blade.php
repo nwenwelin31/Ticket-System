@@ -11,47 +11,35 @@
                             <tr>
                                 <th scope="col">Title</th>
                                 <th scope="col">Message</th>
-                                <th scope="col">Label</th>
-                                <th scope="col">Category</th>
                                 <th scope="col">Priority</th>
                                 <th scope="col">File</th>
+                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($tickets as $ticket)
-
-                            <tr>
-                                <td>{{ $ticket->title }}</td>
-                                <td>{{ $ticket->message }}</td>
-                                <td>{{ $ticket->priority }}</td>
-                                <td>{{ $ticket->file }}</td>
-                                <td>
-                                @foreach ($ticket->categories as $category)
-                                    {{ $category->name }}
-                                @endforeach
-                                </td>
-                                {{-- @foreach ($ticket->label as $label)
-                                    <td>{{ $label->name }}</td>
-                                @endforeach --}}
-                                <td>
-                                    <a href="#"
-                                        class="btn btn-outline-primary">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-                                    <a href="#"
-                                        class="btn btn-outline-primary">
-                                        <i class="fa fa-info"></i>
-                                    </a>
-                                    <form action="#" method="post" class="d-inline-block">
-                                        @method('delete')
-                                        @csrf
-                                        <button type="" class="btn btn-outline-danger">
-                                            {{-- onclick="return confirm('Are you sure you want to delete?')" --}}
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>{{ $ticket->title }}</td>
+                                    <td>{{ $ticket->message }}</td>
+                                    <td>{{ $ticket->priority }}</td>
+                                    <td><img src="{{ asset('/storage/uploads/'. $ticket->file) }}" alt="{{ $ticket->name }}" style="max-width: 50px; max-height: 50px;" ></td>
+                                    <td>
+                                        <a href="#" class="btn btn-outline-primary">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <a href="{{ route('ticket.show',$ticket->id) }}" class="btn btn-outline-primary">
+                                            <i class="fa fa-info"></i>
+                                        </a>
+                                        <form action="#" method="post" class="d-inline-block">
+                                            @method('delete')
+                                            @csrf
+                                            <button type="" class="btn btn-outline-danger">
+                                                {{-- onclick="return confirm('Are you sure you want to delete?')" --}}
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
                             @endforeach
 
                         </tbody>

@@ -9,7 +9,8 @@ use App\Models\Ticket;
 class Category extends Model
 {
     use HasFactory;
-    public function ticket(){
+    public function ticket()
+    {
         return $this->belongsToMany(Ticket::class);
     }
 }

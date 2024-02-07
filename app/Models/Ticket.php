@@ -12,23 +12,23 @@ use App\Models\Comment;
 class Ticket extends Model
 {
     use HasFactory;
-    public function categories()
+    public function category()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsTo(Category::class);
     }
 
     public function Label()
     {
-        return $this->belongsToMany(Label::class);
+        return $this->belongsTo(Label::class);
     }
 
     public function user()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function comment()
     {
-        return $this->belongsToMany(Comment::class);
+        return $this->hasMany(Comment::class);
     }
 }
