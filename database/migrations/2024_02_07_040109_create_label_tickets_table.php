@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCategoryTicketTable extends Migration
+class CreateLabelTicketsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateCategoryTicketTable extends Migration
      */
     public function up()
     {
-        Schema::create('category_ticket', function (Blueprint $table) {
+        Schema::create('label_tickets', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('ticket_id');
+            $table->unsignedBigInteger('label_id');
             $table->timestamps();
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('label_id')->references('id')->on('labels')->onDelete('cascade');
             $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
         });
     }
@@ -30,6 +30,6 @@ class CreateCategoryTicketTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_ticket');
+        Schema::dropIfExists('label_tickets');
     }
 }

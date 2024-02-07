@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use App\Models\Category;
 use App\Models\Label;
+use App\Models\CategoryTicket;
+use App\Models\LabelTicket;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 
@@ -17,7 +19,8 @@ class TicketController extends Controller
      */
     public function index()
     {
-        return view('ticket.create');
+        $tickets = Ticket::all();
+        return view('ticket.index',compact('tickets'));
     }
 
     /**
@@ -43,18 +46,6 @@ class TicketController extends Controller
         $ticket = new Ticket();
         $ticket->title = $request->title;
         $ticket->message = $request->message;
-        // $labelData = $request->input('label_id', []);
-        // $ticket->label_id = implode(', ', $labelData);
-        // $categoryData = $request->input('category_id', []);
-        // $ticket->category_id = implode(', ', $categoryData);
-        // Store category IDs
-        $categoryIds = $request->input('category_id', []);
-        $ticket->category()->sync($categoryIds); // Assuming 'categories' is the relationship method
-
-        // Store label IDs
-        $labelIds = $request->input('label_id', []);
-        $ticket->label()->sync($labelIds); // Assuming 'labels' is the relationship method
-
         $ticket->priority = $request->priority;
 
         // Handle file uploads
@@ -62,10 +53,41 @@ class TicketController extends Controller
         $newName = "file_".uniqid().".".$file->extension();
         $file->storeAs('public/uploads', $newName);
         $ticket->file = $newName;
-
         $ticket->save();
-        return 'hello';
 
+        // foreach($request->file('file') as $file)
+        // {
+        //     $newName = "file_".uniqid().".".$file->getClientOriginalExtension();
+        //     $file->storeAs('public/uploads', $newName);
+        //     $ticket->files()->create([
+        //         'file' => $newName
+        //     ]);
+        // }
+
+
+        //$ticket->file = implode(',',$newName);
+        //$ticket->save();
+
+        // Store label IDs and ticket id in to label_tickets table
+        $labelData = $request->input('label_id', []);
+         foreach($labelData as $labelId)
+         {
+            $labelTicket = new labelTicket();
+            $labelTicket->ticket_id = $ticket->id;
+            $labelTicket->label_id = $labelId;
+            $labelTicket->save();
+         }
+
+        // Store category IDs and ticket id in to category_tickets table
+         $categoryData = $request->input('category_id', []);
+         foreach($categoryData as $categoryId)
+         {
+            $categoryTicket = new CategoryTicket();
+            $categoryTicket->ticket_id = $ticket->id;
+            $categoryTicket->category_id = $categoryId;
+            $categoryTicket->save();
+         }
+         return redirect()->route('ticket.index');
     }
 
     /**

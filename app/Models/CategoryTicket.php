@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Ticket;
 
-class Label extends Model
+class CategoryTicket extends Model
 {
     use HasFactory;
 }
