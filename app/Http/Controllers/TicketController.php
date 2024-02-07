@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use App\Models\Category;
+use App\Models\Label;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
 
@@ -25,7 +27,9 @@ class TicketController extends Controller
      */
     public function create()
     {
-        return view('ticket.create');
+        $categories = Category::all();
+        $labels = Label::all();
+        return view('ticket.create',compact(['categories','labels']));
     }
 
     /**
@@ -39,15 +43,26 @@ class TicketController extends Controller
         $ticket = new Ticket();
         $ticket->title = $request->title;
         $ticket->message = $request->message;
-        $labelData = $request->input('label', []);
-        $ticket->label = implode(', ', $labelData);
-        $categoryData = $request->input('category', []);
-        $ticket->category = implode(', ', $categoryData);
+        // $labelData = $request->input('label_id', []);
+        // $ticket->label_id = implode(', ', $labelData);
+        // $categoryData = $request->input('category_id', []);
+        // $ticket->category_id = implode(', ', $categoryData);
+        // Store category IDs
+        $categoryIds = $request->input('category_id', []);
+        $ticket->category()->sync($categoryIds); // Assuming 'categories' is the relationship method
+
+        // Store label IDs
+        $labelIds = $request->input('label_id', []);
+        $ticket->label()->sync($labelIds); // Assuming 'labels' is the relationship method
+
         $ticket->priority = $request->priority;
+
+        // Handle file uploads
         $file = $request->file('file');
         $newName = "file_".uniqid().".".$file->extension();
         $file->storeAs('public/uploads', $newName);
         $ticket->file = $newName;
+
         $ticket->save();
         return 'hello';
 

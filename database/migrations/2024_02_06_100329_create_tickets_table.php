@@ -17,10 +17,11 @@ class CreateTicketsTable extends Migration
             $table->id();
             $table->string('title');
             $table->longText('message');
-            $table->string('label');
-            $table->string('category');
             $table->string('priority');
             $table->longText('file');
+            //$table->string('status')->default('open');
+            // $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            // $table->foreignId('label_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -12,11 +12,11 @@ class Ticket extends Model
     use HasFactory;
     public function category()
     {
-        return $this->hasMany(Category::class);
+        return $this->belongsToMany(Category::class);
     }
 
     public function Label()
     {
-        return $this->hasMany(Label::class);
+        return $this->belongsToMany(Label::class);
     }
 }
