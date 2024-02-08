@@ -7,6 +7,7 @@ use App\Http\Controllers\LabelController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\CommentController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,3 +32,7 @@ Route::resource('label',LabelController::class);
 Route::resource('category',CategoryController::class);
 Route::resource('ticket',TicketController::class);
 Route::resource('comment',CommentController::class);
+//Route::get('/ticket/{id}/comment/create',[CommentController::class,'create'])->name('comment.create');
+//Route::post('/comment',[CommentController::class,'store'])->name('comment.store');
+// Route::delete('ticket/{id}/comment/delete',[CommentController::class,'destroy'])->name('comment.destroy');
+Route::get('/ticket/{id}/show',[CommentController::class,'show'])->name('comment.show');

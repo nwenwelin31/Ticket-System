@@ -9,4 +9,8 @@ use App\Models\Ticket;
 class Label extends Model
 {
     use HasFactory;
+    public function ticket()
+    {
+        return $this->belongsToMany(Ticket::class,'label_tickets');
+    }
 }

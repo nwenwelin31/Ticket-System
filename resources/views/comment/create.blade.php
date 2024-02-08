@@ -1,34 +1,11 @@
-@extends('dashboard.index')
-
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-sm-7 mt-2">
-                <h3 class="p-2 bg-dark">Create Comment</h3>
-                <form action="{{ route('comment.store') }}" method="post" class="card p-3">
-                    @csrf
-                    {{-- Comment Name field --}}
-                    <div class="form-group">
-                        <label for="name">Comment</label>
-                        {{-- validation error message --}}
-                        @if ($errors->any())
-                            <div class="text-danger">
-                                @foreach ($errors->all() as $error)
-                                    {{ $error }}
-                                @endforeach
-                            </div>
-                        @endif
-                        <input type="input" class="form-control" name="name" />
-                    </div>
-
-                    {{-- add button --}}
-                    <div class="form-group row">
-                        <div class="col-sm-12">
-                            <button type="submit" class="btn btn-primary">Add</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+<div class="card-body">
+    <form class="row g-2" action="{{ route('comment.store') }}" method="post">
+        @csrf
+        <div class="col-auto">
+            <label for="message" class="">Comment</label>
+            <input type="text" class="form-control mb-3" placeholder="Add comment" name="name">
+            <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
+            <button type="submit" class="btn btn-primary">Send</button>
         </div>
-    </div>
-@endsection
+    </form>
+</div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Ticket;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\UpdateCommentRequest;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,8 @@ class CommentController extends Controller
      */
     public function create()
     {
-        return view('comment.create');
+
+        //return view('comment.create');
     }
 
     /**
@@ -42,7 +44,10 @@ class CommentController extends Controller
         $comment->user_id = Auth::user()->id;
         $comment->ticket_id =$request->ticket_id;
         $comment->save();
-        return redirect()->back();
+        $ticket = Ticket::find($request->ticket_id);
+        $comments = $ticket->comment;
+        $isEditing=false;
+        return redirect()->route('ticket.show',compact('comments','ticket'));
     }
 
     /**
@@ -51,9 +56,12 @@ class CommentController extends Controller
      * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function show(Comment $comment)
+    public function show(Comment $comment,$id)
     {
-        //
+        $ticket = Ticket::find($id);
+        $comments = $ticket->comment;
+        return $comments;
+        //return view('comment.show',compact('comments'));
     }
 
     /**
@@ -64,7 +72,8 @@ class CommentController extends Controller
      */
     public function edit(Comment $comment)
     {
-        //
+        $isEditing = true; // Set this to true if editing, false if creating
+        return view('comment.edit',compact('comment','isEditing'));
     }
 
     /**
@@ -76,7 +85,11 @@ class CommentController extends Controller
      */
     public function update(UpdateCommentRequest $request, Comment $comment)
     {
-        //
+        $comment->name = $request->name;
+        $comment->user_id = Auth::user()->id;
+        $comment->ticket_id =$request->ticket_id;
+        $comment->update();
+        return view('ticket.detail');
     }
 
     /**
@@ -90,6 +103,7 @@ class CommentController extends Controller
         if($comment->id){
             $comment->delete();
         }
-        return redirect()->back();
+        return redirect()->route('ticket.show');
+
     }
 }

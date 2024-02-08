@@ -3,9 +3,17 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-sm-10 bg-dark mt-2 p-3">
+            <div class="col-sm-12 bg-dark mt-2 p-3">
                 <h3>Ticket Data Lists</h3>
                 <div>
+                    @if (Session::has('delete'))
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            {{ session('delete') }}
+                        </div>
+                    @endif
                     <table class="table">
                         <thead class="table">
                             <tr>
@@ -24,13 +32,13 @@
                                     <td>{{ $ticket->priority }}</td>
                                     <td><img src="{{ asset('/storage/uploads/'. $ticket->file) }}" alt="{{ $ticket->name }}" style="max-width: 50px; max-height: 50px;" ></td>
                                     <td>
-                                        <a href="#" class="btn btn-outline-primary">
+                                        <a href="{{ route('ticket.edit',$ticket->id) }}" class="btn btn-outline-primary">
                                             <i class="fa fa-edit"></i>
                                         </a>
                                         <a href="{{ route('ticket.show',$ticket->id) }}" class="btn btn-outline-primary">
                                             <i class="fa fa-info"></i>
                                         </a>
-                                        <form action="#" method="post" class="d-inline-block">
+                                        <form action="{{ route('ticket.destroy',$ticket->id) }}" method="post" class="d-inline-block">
                                             @method('delete')
                                             @csrf
                                             <button type="" class="btn btn-outline-danger">

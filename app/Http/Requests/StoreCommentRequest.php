@@ -24,7 +24,7 @@ class StoreCommentRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|string|unique:categories|max:255',
         ];
     }
 }

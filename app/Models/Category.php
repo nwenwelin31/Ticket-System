@@ -11,6 +11,6 @@ class Category extends Model
     use HasFactory;
     public function ticket()
     {
-        return $this->belongsToMany(Ticket::class);
+        return $this->belongsToMany(Ticket::class,'category_tickets');
     }
 }

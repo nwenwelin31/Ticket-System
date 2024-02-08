@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use App\Models\Category;
 use App\Models\Label;
+use App\Models\User;
+use App\Models\Comment;
 use App\Models\CategoryTicket;
 use App\Models\LabelTicket;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
+use Illuminate\Support\Facades\Auth;
 
 class TicketController extends Controller
 {
@@ -43,11 +46,23 @@ class TicketController extends Controller
      */
     public function store(StoreTicketRequest $request)
     {
+
+        // Validate the incoming request
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'message' => 'required|string',
+            'category_id' => 'required',
+            'label_id' => 'required',
+            'priority' => 'required|string|max:255',
+            'file.*' => 'nullable|file|max:10240', // Assuming maximum file size of 10 MB
+        ]);
+
         $ticket = new Ticket();
         $ticket->title = $request->title;
         $ticket->message = $request->message;
         $ticket->priority = $request->priority;
-
+        $ticket->status = 1;//status open
+        $ticket->user_id = Auth::user()->id;//login user id
         // Handle file uploads
         $file = $request->file('file');
         $newName = "file_".uniqid().".".$file->extension();
@@ -55,36 +70,18 @@ class TicketController extends Controller
         $ticket->file = $newName;
         $ticket->save();
 
+        // Store label IDs and ticket id in to label_tickets table
         if($request->category_id)
         {
-            $ticket->category()->associate($request->category_id);
+            $ticket->category()->attach($request->category_id);
         }
 
+        //Store category IDs and ticket id in to category_tickets table
         if($request->label_id)
         {
-            $ticket->label()->associate($request->label_id);
+            $ticket->label()->attach($request->label_id);
         }
-
-        // Store label IDs and ticket id in to label_tickets table
-        // $labelData = $request->input('label_id', []);
-        //  foreach($labelData as $labelId)
-        //  {
-        //     $labelTicket = new labelTicket();
-        //     $labelTicket->ticket_id = $ticket->id;
-        //     $labelTicket->label_id = $labelId;
-        //     $labelTicket->save();
-        //  }
-
-        // Store category IDs and ticket id in to category_tickets table
-        //  $categoryData = $request->input('category_id', []);
-        //  foreach($categoryData as $categoryId)
-        //  {
-        //     $categoryTicket = new CategoryTicket();
-        //     $categoryTicket->ticket_id = $ticket->id;
-        //     $categoryTicket->category_id = $categoryId;
-        //     $categoryTicket->save();
-        //  }
-
+        return redirect()->route('ticket.index')->with('store','Ticket is created successfully');
     }
 
     /**
@@ -95,7 +92,8 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        return view('ticket.detail',compact('ticket'));
+        $comments = $ticket->comment();
+        return view('ticket.show',compact('ticket','comments'));
     }
 
     /**
@@ -106,7 +104,10 @@ class TicketController extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        //
+        $categories = Category::all();
+        $labels = Label::all();
+        $agents = User::where('role','1')->get();
+        return view('ticket.edit',compact('ticket','categories','labels','agents'));
     }
 
     /**
@@ -118,7 +119,32 @@ class TicketController extends Controller
      */
     public function update(UpdateTicketRequest $request, Ticket $ticket)
     {
-        //
+        $ticket->title = $request->title;
+        $ticket->message = $request->message;
+        $ticket->priority = $request->priority;
+        $ticket->status = 1;//status open
+        $ticket->user_id = Auth::user()->id;//login user id
+        $ticket->agent_id = $request->agent_id;
+
+        // Handle file uploads
+        $file = $request->file('file');
+        $newName = "file_".uniqid().".".$file->extension();
+        $file->storeAs('public/uploads', $newName);
+        $ticket->file = $newName;
+        $ticket->update();
+
+         // update label IDs and ticket id in to label_tickets table
+         if($request->category_id)
+         {
+             $ticket->category()->sync($request->category_id);
+         }
+
+         //update category IDs and ticket id in to category_tickets table
+         if($request->label_id)
+         {
+             $ticket->label()->sync($request->label_id);
+         }
+         return redirect()->route('ticket.index')->with('update','Ticket is updated successfully');
     }
 
     /**
@@ -129,6 +155,10 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
-        //
+        if($ticket->id)
+        {
+            $ticket->delete();
+        }
+        return redirect()->back()->with('delete','Ticket is deleted successfully');
     }
 }

@@ -14,12 +14,12 @@ class Ticket extends Model
     use HasFactory;
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class,'category_tickets');
     }
 
     public function Label()
     {
-        return $this->belongsTo(Label::class);
+        return $this->belongsToMany(Label::class,'label_tickets');
     }
 
     public function user()

@@ -13,7 +13,7 @@ class UpdateTicketRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class UpdateTicketRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'message' => 'required|string',
+            'category_id' => 'required',
+            'label_id' => 'required',
+            'priority' => 'required|string|max:255',
+            'file.*' => 'nullable|file|max:10240', // Assuming maximum file size of 10 MB
+
         ];
     }
 }

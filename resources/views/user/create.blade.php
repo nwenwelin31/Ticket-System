@@ -57,8 +57,8 @@
                             <div class="col-sm-9">
                                 <select class="form-control" name="userRole" id="userRole"
                                     aria-label="Default select example">
-                                    <option name="userRole" value="1">Regular user</option>
-                                    <option name="userRole" value="2">Agent</option>
+                                    <option name="userRole" value="2">Regular user</option>
+                                    <option name="userRole" value="1">Agent</option>
                                 </select>
                             </div>
                         </div>

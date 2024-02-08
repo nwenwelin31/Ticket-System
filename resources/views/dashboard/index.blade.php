@@ -76,56 +76,97 @@
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
+                    @if (auth()->user()->role == '0')
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                        data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-                        <li class="nav-item">
-                            <a href="{{ route('user.create') }}" class="nav-link">
-                                <i class="nav-icon fas fa-plus"></i>
-                                <p>
-                                    Create User
-                                    <span class="right badge badge-danger">New</span>
-                                </p>
-                            </a>
-                        </li>
+                    data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
+           with font-awesome or any other icon font library -->
+                    <li class="nav-item">
+                        <a href="{{ route('user.create') }}" class="nav-link">
+                            <i class="nav-icon fas fa-plus"></i>
+                            <p>
+                                Create User
+                                <span class="right badge badge-danger">New</span>
+                            </p>
+                        </a>
+                    </li>
 
-                        <li class="nav-item">
-                            <a href="{{ route('user.index') }}" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    User List
-                                    <span class="right badge badge-success">view</span>
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-ticket"></i>
-                                <p>Tickets</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-file"></i>
-                                <p>Ticket Logs</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-archive"></i>
-                                <p>Categories</p>
-                            </a>
-                        </li>
+                    <li class="nav-item">
+                        <a href="{{ route('user.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                User List
+                                <span class="right badge badge-success">view</span>
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-ticket"></i>
+                            <p>Create Tickets</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-file"></i>
+                            <p>Ticket Lists</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-archive"></i>
+                            <p>Create Category</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-archive"></i>
+                            <p>Category List</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-tag"></i>
+                            <p>Create Label</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-tag"></i>
+                            <p>Label list</p>
+                        </a>
+                    </li>
 
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-tag"></i>
-                                <p>Labels</p>
-                            </a>
-                        </li>
-
-                    </ul>
+                </ul>
+                    @endif
+                    @if (auth()->user()->role == '1')
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-ticket"></i>
+                            <p>Create Tickets</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-file"></i>
+                            <p>Ticket Lists</p>
+                        </a>
+                    </li>
+                    @endif
+                    @if (auth()->user()->role == '2')
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-ticket"></i>
+                            <p>Create Tickets</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-file"></i>
+                            <p>Ticket Lists</p>
+                        </a>
+                    </li>
+                    @endif
                 </nav>
                 <!-- /.sidebar -->
         </aside>
