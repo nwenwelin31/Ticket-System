@@ -78,7 +78,7 @@
 
                     {{-- browse file --}}
                     <div class="form-group">
-                        <input class="form-control" type="file" name="file" multiple="multiple">
+                        <input class="form-control" type="file" name="file[]" multiple="multiple">
                         {{-- <label for="file" class="form-label">Drag & Drop your files or Browse</label> --}}
                     </div>
 

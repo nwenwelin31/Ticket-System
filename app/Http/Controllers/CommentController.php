@@ -17,7 +17,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = Comment::all();
+        return view('comment.index',compact('comments'));
     }
 
     /**
@@ -60,8 +61,7 @@ class CommentController extends Controller
     {
         $ticket = Ticket::find($id);
         $comments = $ticket->comment;
-        return $comments;
-        //return view('comment.show',compact('comments'));
+        return view('comment.index',compact('comments'));
     }
 
     /**
@@ -72,8 +72,8 @@ class CommentController extends Controller
      */
     public function edit(Comment $comment)
     {
-        $isEditing = true; // Set this to true if editing, false if creating
-        return view('comment.edit',compact('comment','isEditing'));
+
+        return view('comment.edit',compact('comment'));
     }
 
     /**
@@ -89,7 +89,7 @@ class CommentController extends Controller
         $comment->user_id = Auth::user()->id;
         $comment->ticket_id =$request->ticket_id;
         $comment->update();
-        return view('ticket.detail');
+        return redirect()->route('comment.index');
     }
 
     /**
@@ -103,7 +103,7 @@ class CommentController extends Controller
         if($comment->id){
             $comment->delete();
         }
-        return redirect()->route('ticket.show');
+        return back();
 
     }
 }

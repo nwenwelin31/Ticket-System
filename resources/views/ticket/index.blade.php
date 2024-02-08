@@ -3,8 +3,8 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-sm-12 bg-dark mt-2 p-3">
-                <h3>Ticket Data Lists</h3>
+            <div class="col-sm-12 mt-2 p-3">
+                <h3 class="bg-dark p-3">Ticket Data Lists</h3>
                 <div>
                     @if (Session::has('delete'))
                         <div class="alert alert-danger alert-dismissible" role="alert">
@@ -14,6 +14,7 @@
                             {{ session('delete') }}
                         </div>
                     @endif
+                    {{-- detail ticket info --}}
                     <table class="table">
                         <thead class="table">
                             <tr>
@@ -30,22 +31,35 @@
                                     <td>{{ $ticket->title }}</td>
                                     <td>{{ $ticket->message }}</td>
                                     <td>{{ $ticket->priority }}</td>
-                                    <td><img src="{{ asset('/storage/uploads/'. $ticket->file) }}" alt="{{ $ticket->name }}" style="max-width: 50px; max-height: 50px;" ></td>
+                                    {{-- multiple file show --}}
                                     <td>
-                                        <a href="{{ route('ticket.edit',$ticket->id) }}" class="btn btn-outline-primary">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a href="{{ route('ticket.show',$ticket->id) }}" class="btn btn-outline-primary">
+                                        @if ($ticket->file)
+                                            @foreach (explode(',', $ticket->file) as $file)
+                                                <img src="{{ asset('/storage/uploads/' . $file) }}" alt=""
+                                                    style="max-width: 15%; max-height: 15%;">
+                                            @endforeach
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('ticket.show', $ticket->id) }}" class="btn btn-outline-primary">
                                             <i class="fa fa-info"></i>
                                         </a>
-                                        <form action="{{ route('ticket.destroy',$ticket->id) }}" method="post" class="d-inline-block">
-                                            @method('delete')
-                                            @csrf
-                                            <button type="" class="btn btn-outline-danger">
-                                                {{-- onclick="return confirm('Are you sure you want to delete?')" --}}
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </form>
+
+                                        @if (Auth::user()->id == "0")
+                                            <a href="{{ route('ticket.edit', $ticket->id) }}" class="btn btn-outline-primary">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <form action="{{ route('ticket.destroy', $ticket->id) }}" method="post"
+                                                class="d-inline-block">
+                                                @method('delete')
+                                                @csrf
+                                                <button type="" class="btn btn-outline-danger">
+                                                    {{-- onclick="return confirm('Are you sure you want to delete?')" --}}
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        @endif
+
                                     </td>
                                 </tr>
                             @endforeach

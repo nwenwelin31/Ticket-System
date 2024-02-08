@@ -101,37 +101,37 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('ticket.create') }}" class="nav-link">
                             <i class="nav-icon fas fa-ticket"></i>
                             <p>Create Tickets</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('ticket.index') }}" class="nav-link">
                             <i class="nav-icon fas fa-file"></i>
                             <p>Ticket Lists</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('category.create') }}" class="nav-link">
                             <i class="nav-icon fas fa-archive"></i>
                             <p>Create Category</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('category.index') }}" class="nav-link">
                             <i class="nav-icon fas fa-archive"></i>
                             <p>Category List</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('label.create') }}" class="nav-link">
                             <i class="nav-icon fas fa-tag"></i>
                             <p>Create Label</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('label.index') }}" class="nav-link">
                             <i class="nav-icon fas fa-tag"></i>
                             <p>Label list</p>
                         </a>
@@ -141,13 +141,13 @@
                     @endif
                     @if (auth()->user()->role == '1')
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('ticket.create') }}" class="nav-link">
                             <i class="nav-icon fas fa-ticket"></i>
                             <p>Create Tickets</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('ticket.index') }}" class="nav-link">
                             <i class="nav-icon fas fa-file"></i>
                             <p>Ticket Lists</p>
                         </a>
@@ -155,13 +155,13 @@
                     @endif
                     @if (auth()->user()->role == '2')
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('ticket.create') }}" class="nav-link">
                             <i class="nav-icon fas fa-ticket"></i>
                             <p>Create Tickets</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="{{ route('ticket.index') }}" class="nav-link">
                             <i class="nav-icon fas fa-file"></i>
                             <p>Ticket Lists</p>
                         </a>

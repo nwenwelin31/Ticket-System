@@ -22,7 +22,18 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::all();
+        if(Auth::user()->role == "0")
+        {
+            $tickets = Ticket::all();
+        }
+        else if(Auth::user()->role == "1")
+        {
+            $tickets = Ticket::where('user_id',Auth::user()->id)->orWhere('agent_id',Auth::user()->id)->get();
+        }
+        else
+        {
+            $tickets = Ticket::where('user_id',Auth::user()->id)->get();
+        }
         return view('ticket.index',compact('tickets'));
     }
 
@@ -46,17 +57,6 @@ class TicketController extends Controller
      */
     public function store(StoreTicketRequest $request)
     {
-
-        // Validate the incoming request
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'message' => 'required|string',
-            'category_id' => 'required',
-            'label_id' => 'required',
-            'priority' => 'required|string|max:255',
-            'file.*' => 'nullable|file|max:10240', // Assuming maximum file size of 10 MB
-        ]);
-
         $ticket = new Ticket();
         $ticket->title = $request->title;
         $ticket->message = $request->message;
@@ -64,10 +64,19 @@ class TicketController extends Controller
         $ticket->status = 1;//status open
         $ticket->user_id = Auth::user()->id;//login user id
         // Handle file uploads
-        $file = $request->file('file');
-        $newName = "file_".uniqid().".".$file->extension();
-        $file->storeAs('public/uploads', $newName);
-        $ticket->file = $newName;
+        $files = $request->file('file');
+        $uploadedFiles = [];
+            foreach($files as $file)
+            {
+                if($files)
+                {
+                    $fileName = "file_".uniqid().".".$file->extension();
+                    $file->storeAs('public/uploads', $fileName);
+                    $uploadedFiles[] =$fileName;
+                }
+            }
+
+        $ticket->file = implode(",",$uploadedFiles);
         $ticket->save();
 
         // Store label IDs and ticket id in to label_tickets table
@@ -92,7 +101,7 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        $comments = $ticket->comment();
+        $comments = $ticket->comment;
         return view('ticket.show',compact('ticket','comments'));
     }
 
@@ -107,7 +116,11 @@ class TicketController extends Controller
         $categories = Category::all();
         $labels = Label::all();
         $agents = User::where('role','1')->get();
-        return view('ticket.edit',compact('ticket','categories','labels','agents'));
+        if(Auth::user()->id == "0" || Auth::user()->id == $ticket->agent_id)
+        {
+            return view('ticket.edit',compact('ticket','categories','labels','agents'));
+        }
+
     }
 
     /**
@@ -127,10 +140,19 @@ class TicketController extends Controller
         $ticket->agent_id = $request->agent_id;
 
         // Handle file uploads
-        $file = $request->file('file');
-        $newName = "file_".uniqid().".".$file->extension();
-        $file->storeAs('public/uploads', $newName);
-        $ticket->file = $newName;
+        $files = $request->file('file');
+        $uploadedFiles = [];
+            foreach($files as $file)
+            {
+                if($files)
+                {
+                    $fileName = "file_".uniqid().".".$file->extension();
+                    $file->storeAs('public/uploads', $fileName);
+                    $uploadedFiles[] =$fileName;
+                }
+            }
+
+        $ticket->file = implode(",",$uploadedFiles);
         $ticket->update();
 
          // update label IDs and ticket id in to label_tickets table
