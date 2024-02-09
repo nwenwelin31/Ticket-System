@@ -90,7 +90,7 @@
                         </select>
                     </div>
                     {{-- browse file --}}
-                    <div class="form-group"><input class="form-control" type="file" name="file" multiple="multiple">
+                    <div class="form-group"><input class="form-control" type="file" name="file[]" multiple="multiple">
                         <img src="{{ asset('/storage/uploads/' . $ticket->file) }}" alt="{{ $ticket->name }}"
                             style="max-width: 50px; max-height: 50px;">
                         {{-- <label for="file" class="form-label">Drag & Drop your files or Browse</label> --}}

@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-sm-12 mt-2 p-3">
-                <h3 class="bg-dark p-3">Ticket Data Lists</h3>
+                <h3 class="bg-dark p-3">Ticket Lists</h3>
                 <div>
                     @if (Session::has('delete'))
                         <div class="alert alert-danger alert-dismissible" role="alert">
@@ -22,7 +22,8 @@
                                 <th scope="col">Message</th>
                                 <th scope="col">Priority</th>
                                 <th scope="col">File</th>
-                                <th scope="col">Action</th>
+                                <th scope="col">Assign Agent</th>
+                                <th scope="col" colspan="3">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,21 +37,31 @@
                                         @if ($ticket->file)
                                             @foreach (explode(',', $ticket->file) as $file)
                                                 <img src="{{ asset('/storage/uploads/' . $file) }}" alt=""
-                                                    style="max-width: 15%; max-height: 15%;">
+                                                    style="max-width: 10%; max-height: 10%;">
                                             @endforeach
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($ticket->agent_id == null)
+                                            Not Assign
+                                            @else
+                                            {{ $ticket->agent->name }}
                                         @endif
                                     </td>
                                     <td>
                                         <a href="{{ route('ticket.show', $ticket->id) }}" class="btn btn-outline-primary">
                                             <i class="fa fa-info"></i>
                                         </a>
+                                    </td>
 
-                                        @if (Auth::user()->id == "0")
+                                        @if (Auth::user()->role == '0')
+                                        <td>
                                             <a href="{{ route('ticket.edit', $ticket->id) }}" class="btn btn-outline-primary">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <form action="{{ route('ticket.destroy', $ticket->id) }}" method="post"
-                                                class="d-inline-block">
+                                        </td>
+                                            <td>
+                                            <form action="{{ route('ticket.destroy', $ticket->id) }}" method="post" class="d-inline-block">
                                                 @method('delete')
                                                 @csrf
                                                 <button type="" class="btn btn-outline-danger">
@@ -58,6 +69,13 @@
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </form>
+                                        @endif
+                                        @if (Auth::user()->id == $ticket->agent_id)
+                                        <td>
+                                            <a href="{{ route('ticket.edit', $ticket->id) }}" class="btn btn-outline-primary">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                        </td>
                                         @endif
 
                                     </td>

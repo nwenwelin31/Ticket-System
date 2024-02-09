@@ -66,7 +66,7 @@
                         {{-- login button --}}
                         <div class="form-group row text-center">
                             <div class="col-sm-12">
-                                <button type="submit" class="btn btn-dark">Login</button>
+                                <button type="submit" class="btn btn-dark">Create</button>
                             </div>
                         </div>
                     </form>

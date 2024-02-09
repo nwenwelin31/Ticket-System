@@ -6,42 +6,38 @@
             <div class="col-md-5">
                 <div class="card mt-5">
                     <h3 class="p-2 btn-dark text-center">Comment List</h3>
-                    <div class="row mt-4">
-                        <div class="col-sm-4">
-                            @foreach ($comments as $comment)
-                                <div class="p-3 mt-1">
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                <h5 class="card-title">{{ $comment->user->name }}</h5>
-                                                <p class="card-text">{{ $comment->name }}</p>
-                                            </td>
-
-                                            <td>
-                                                <a href="{{ route('comment.edit', $comment->id) }}"
-                                                    class="btn btn-primary-outline">
-                                                    <i class="fa fa-edit text-info"></i>
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <form method="post" action = "{{ route('comment.destroy', $comment->id) }}"
-                                                    class="d-inline-block">
-                                                    @method('delete')
-                                                    @csrf
-                                                    <button class="btn btn-primary-outline"
-                                                        onclick="return confirm('Are you sure you want to delete?')"><i
-                                                            class="fa fa-trash fa-lg text-danger"></i> </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    </table>
-                        </div>
+                    <div class="card-body">
+                        @foreach ($comments as $comment)
+                            <div class="mb-4">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        {{-- <i class="fa fa-user"></i> --}}
+                                        <h5> {{ $comment->user->name }}</h5>
+                                        <p>{{ $comment->name }}</p>
+                                        <small>{{ $comment->created_at}}</small>
+                                    </div>
+                                    <div class="d-flex">
+                                        {{-- <a href="{{ route('comment.show', $comment->id) }}" class="btn btn-warning mx-2"><i class="fa fa-info"></i></a> --}}
+                                        @if(auth()->user()->role == '0' || auth()->user()->id == $comment->user_id)
+                                            <a href="{{ route('comment.edit', $comment->id) }}"
+                                                class="btn btn-warning-outline mx-2"><i class="fa fa-pencil"></i></a>
+                                            <form action="{{ route('comment.destroy', $comment->id) }}" method="POST"
+                                                class="d-inline">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="btn btn-danger-outline mx-2"><i
+                                                        class="fa fa-trash-can text-danger"></i></button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <hr/>
                         @endforeach
+
                     </div>
                 </div>
-
             </div>
         </div>
-    </div>
     </div>
 @endsection

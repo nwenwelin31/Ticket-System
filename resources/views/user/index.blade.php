@@ -52,7 +52,7 @@
                             <td>{{ $user->id }}</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->role }}</td>
+                            <td>{{ $user->role == 0 ? "Admin" : ($user->role == 1 ? "Agent" : "Normal User")}}</td>
                             <td>
                                 <a href="{{ route('user.edit',$user->id) }}"
                                     class="btn btn-outline-primary">

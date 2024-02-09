@@ -57,6 +57,15 @@ class TicketController extends Controller
      */
     public function store(StoreTicketRequest $request)
     {
+        $request->validate([
+                'title' => 'required|string|max:255',
+                'message' => 'required|string',
+                'category_id' => 'required',
+                'label_id' => 'required',
+                'priority' => 'required|string|max:255',
+                'file.*' => 'nullable|file|max:10240', // Assuming maximum file size of 10 MB
+        ]);
+
         $ticket = new Ticket();
         $ticket->title = $request->title;
         $ticket->message = $request->message;
@@ -102,7 +111,7 @@ class TicketController extends Controller
     public function show(Ticket $ticket)
     {
         $comments = $ticket->comment;
-        return view('ticket.show',compact('ticket','comments'));
+        return view('ticket.show',compact('ticket'));
     }
 
     /**
@@ -116,7 +125,7 @@ class TicketController extends Controller
         $categories = Category::all();
         $labels = Label::all();
         $agents = User::where('role','1')->get();
-        if(Auth::user()->id == "0" || Auth::user()->id == $ticket->agent_id)
+        if(Auth::user()->role == "0" || Auth::user()->role == $ticket->agent_id)
         {
             return view('ticket.edit',compact('ticket','categories','labels','agents'));
         }
@@ -142,15 +151,19 @@ class TicketController extends Controller
         // Handle file uploads
         $files = $request->file('file');
         $uploadedFiles = [];
+        if($files)
+        {
             foreach($files as $file)
             {
-                if($files)
-                {
-                    $fileName = "file_".uniqid().".".$file->extension();
-                    $file->storeAs('public/uploads', $fileName);
-                    $uploadedFiles[] =$fileName;
-                }
+                $fileName = "file_".uniqid().".".$file->extension();
+                $file->storeAs('public/uploads', $fileName);
+                $uploadedFiles[] =$fileName;
+
             }
+        }
+        else{
+            $uploadedFiles[] = $ticket->file;
+        }
 
         $ticket->file = implode(",",$uploadedFiles);
         $ticket->update();

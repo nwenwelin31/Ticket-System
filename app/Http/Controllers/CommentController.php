@@ -100,10 +100,16 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        if($comment->id){
-            $comment->delete();
+        if($comment->user_id === Auth::user()->id || Auth::user()->role === '0')
+        {
+            if($comment->id){
+                $comment->delete();
+            }
+            return back();
         }
-        return back();
+        else{
+
+        }
 
     }
 }
