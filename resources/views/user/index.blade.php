@@ -4,8 +4,9 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card mt-5">
-                <h3 class="p-2 btn-dark text-center">User List</h3>
+            <h3 class="p-2">User List</h3>
+            <div class="card">
+
                 <table class="table">
                     {{-- delete confirm message --}}
                     @if (Session::has('delete'))
@@ -37,7 +38,7 @@
                         </div>
                     @endif
                     {{-- User Info Table --}}
-                    <thead class="table">
+                    <thead class="table-dark">
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
@@ -46,7 +47,7 @@
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="table-primary">
                         @foreach ($users as $user)
                         <tr>
                             <td>{{ $user->id }}</td>

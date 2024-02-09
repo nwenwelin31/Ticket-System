@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-sm-12 mt-2 p-3">
-                <h3 class="bg-dark p-3">Ticket Lists</h3>
+                <h3 class="p-3">Ticket Lists</h3>
                 <div>
                     @if (Session::has('delete'))
                         <div class="alert alert-danger alert-dismissible" role="alert">
@@ -16,7 +16,7 @@
                     @endif
                     {{-- detail ticket info --}}
                     <table class="table">
-                        <thead class="table">
+                        <thead class="table-dark">
                             <tr>
                                 <th scope="col">Title</th>
                                 <th scope="col">Message</th>
@@ -26,7 +26,7 @@
                                 <th scope="col" colspan="3">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="table-primary">
                             @foreach ($tickets as $ticket)
                                 <tr>
                                     <td>{{ $ticket->title }}</td>

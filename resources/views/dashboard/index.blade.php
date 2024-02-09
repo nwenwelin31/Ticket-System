@@ -76,11 +76,12 @@
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    @if (auth()->user()->role == '0')
+
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
            with font-awesome or any other icon font library -->
+           @if (auth()->user()->role == '0')
                     <li class="nav-item">
                         <a href="{{ route('user.create') }}" class="nav-link">
                             <i class="nav-icon fas fa-plus"></i>
@@ -90,7 +91,6 @@
                             </p>
                         </a>
                     </li>
-
                     <li class="nav-item">
                         <a href="{{ route('user.index') }}" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
@@ -136,8 +136,6 @@
                             <p>Label list</p>
                         </a>
                     </li>
-
-                </ul>
                     @endif
                     @if (auth()->user()->role == '1')
                     <li class="nav-item">
@@ -167,6 +165,7 @@
                         </a>
                     </li>
                     @endif
+                </ul>
                 </nav>
                 <!-- /.sidebar -->
         </aside>

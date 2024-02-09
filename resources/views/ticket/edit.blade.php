@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-sm-10 bg-dark mt-2 p-3">
+            <div class="col-sm-12 bg-dark mt-2 p-3">
                 <h3>Ticket</h3>
                 <form action="{{ route('ticket.update', $ticket->id) }}" method="post" class="p-3 rounded bg-white"
                     enctype="multipart/form-data">
@@ -84,6 +84,7 @@
                     <div class="form-group">
                         <label for="agent_id">Assign Agent</label>
                         <select name="agent_id" class="form-select">
+                            <option value=" "> No agent </option>
                             @foreach ($agents as $agent)
                                 <option value="{{ $agent->id }}">{{ $agent->name }}</option>
                             @endforeach
@@ -91,8 +92,12 @@
                     </div>
                     {{-- browse file --}}
                     <div class="form-group"><input class="form-control" type="file" name="file[]" multiple="multiple">
-                        <img src="{{ asset('/storage/uploads/' . $ticket->file) }}" alt="{{ $ticket->name }}"
-                            style="max-width: 50px; max-height: 50px;">
+                            @if ($ticket->file)
+                            @foreach (explode(',', $ticket->file) as $file)
+                                <img src="{{ asset('/storage/uploads/' . $file) }}" alt=""
+                                    style="max-width: 10%; max-height: 10%;">
+                            @endforeach
+                        @endif
                         {{-- <label for="file" class="form-label">Drag & Drop your files or Browse</label> --}}
                     </div>
 
