@@ -70,13 +70,15 @@
                                                 </button>
                                             </form>
                                         @endif
-                                        @if (Auth::user()->id == $ticket->agent_id)
                                         <td>
+                                        @if (Auth::user()->id == $ticket->agent_id)
+
                                             <a href="{{ route('ticket.edit', $ticket->id) }}" class="btn btn-outline-primary">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                        </td>
+
                                         @endif
+                                    </td>
 
                                     </td>
                                 </tr>

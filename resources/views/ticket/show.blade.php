@@ -54,7 +54,7 @@
                         @if ($ticket->file)
                             <div class="d-flex">
                                 @foreach (explode(',', $ticket->file) as $file)
-                                    <img src="{{ asset('/storage/uploads/' . $file) }}" alt="">
+                                    <img src="{{ asset('/storage/uploads/' . $file) }}" alt="" style="max-width: 50%; max-height: 50%;">
                                 @endforeach
                             </div>
                         @endif
